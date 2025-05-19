@@ -43,7 +43,7 @@ for i, (season, start_date, end_date, data_file) in enumerate(seasons, 1):
 
     predicted = []
 
-    for row in weather_week.iterrows():
+    for _,row in weather_week.iterrows():
         time_now = row['FullTime']
         h = time_now.hour
         m = time_now.month
@@ -58,15 +58,14 @@ for i, (season, start_date, end_date, data_file) in enumerate(seasons, 1):
             predicted.append(np.nan)
             continue
 
-        X = np.array([new_area, 0, temp_now, hour_sin, hour_cos, month_sin, month_cos]).reshape(1, -1)
-
+        X = np.array([new_area, temp_now, hour_sin, hour_cos, month_sin, month_cos]).reshape(1, -1)
         if X.shape[1] < i_scaler.scale_.shape[0]:
             X = np.hstack([X, np.zeros((1, i_scaler.scale_.shape[0] - X.shape[1]))])
 
         X_scaled = i_scaler.transform(X)
         X_input = X_scaled.reshape(1, 1, -1)
 
-        y_pred = model.predict(X_input, verbose=0)[0, 0]
+        y_pred = model.predict(X_input , verbose=0)[0, 0]
         predicted.append(y_pred)
 
     plt.subplot(2, 2, i)
