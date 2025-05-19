@@ -43,7 +43,7 @@ for i, (season, start_date, end_date, data_file) in enumerate(seasons, 1):
 
     predicted = []
 
-    for _, row in weather_week.iterrows():
+    for row in weather_week.iterrows():
         time_now = row['FullTime']
         h = time_now.hour
         m = time_now.month
